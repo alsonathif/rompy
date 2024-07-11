@@ -26,6 +26,7 @@ cgrid:
     mdc: 36
     flow: 0.04
     fhigh: 1.0
+    msc: 48
   grid:
     xp: 110.0
     yp: -35.2
@@ -41,7 +42,7 @@ inpgrid:
     var: bottom
     source:
       model_type: intake
-      catalog_uri: ../../tests/data/catalog.yaml
+      catalog_uri: /software/projects/pawsey0106/alsonathif/rompy/rompy/tests/data/
       dataset_id: gebco
     fac: -1.0
     buffer: 1.0
@@ -53,7 +54,7 @@ inpgrid:
     - var: wind
       source:
         model_type: intake
-        catalog_uri: ../../tests/data/catalog.yaml
+        catalog_uri: /software/projects/pawsey0106/alsonathif/rompy/rompy/tests/data/
         dataset_id: era5
       buffer: 2.0
       filter:

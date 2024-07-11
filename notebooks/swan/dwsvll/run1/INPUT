@@ -1,0 +1,83 @@
+! Rompy SwanConfig
+! Template: /scratch/pawsey0106/alsonathif/venvs/rompy/rompy/templates/swancomp
+! Generated: 2024-07-05 06:44:15.406325 on nid002026 by alsonathif
+
+
+! Startup -------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+PROJECT name='DWSVLL' nr='cnt1' title1='Dawesville constant friction 20m'
+
+SET depmin=0.05 NAUTICAL
+
+MODE NONSTATIONARY TWODIMENSIONAL
+
+COORDINATES SPHERICAL CCM
+
+! Computational Grid --------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+CGRID REGULAR xpc=365311.553 ypc=6386390.027 alpc=-16.5 xlenc=5040.0 ylenc=8720.0 mxc=241 myc=426 CIRCLE mdc=360 flow=0.02 fhigh=0.5 msc=48
+
+! Input Grids ---------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+! Boundary and Initial conditions -------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+INITIAL DEFAULT
+
+
+! Physics -------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+GEN3 WESTHUYSEN DRAG WU
+
+FRICTION MADSEN kn=0.2
+
+
+! Numerics ------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+PROP BSBT
+
+NUMERIC STOPC dabs=0.01 drel=0.01 curvat=0.05 npnts=95.0 NONSTATIONARY mxitns=3
+
+
+! Output --------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+POINTS sname='pts' &
+    xp=114.0 yp=-34.0 &
+    xp=112.5 yp=-26.0 &
+    xp=115.0 yp=-30.0
+
+QUANTITY DEPTH HSIGN TPS DIR TM01 excv=-9.0
+
+QUANTITY HSWELL fswell=0.125
+
+BLOCK sname='COMPGRID' fname='swangrid.nc' &
+    DEPTH &
+    WIND &
+    HSIGN &
+    TPS &
+    DIR &
+    OUTPUT tbegblk=20230101.000000 deltblk=1.0 HR
+
+TABLE sname='pts' HEADER fname='swantable.txt' &
+    TIME &
+    HSIGN &
+    HSWELL &
+    DIR &
+    TPS &
+    TM01 &
+    OUTPUT tbegtbl=20230101.000000 delttbl=1.0 HR
+
+SPECOUT sname='pts' SPEC2D ABS fname='swanspec.nc' OUTPUT tbegspc=20230101.000000 deltspc=1.0 HR
+
+
+! Lockup --------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+COMPUTE STATIONARY time=20230101.000000
+COMPUTE NONSTATIONARY tbegc=20230101.000000 deltc=1.0 HR tendc=20230113.000000
+HOTFILE fname='hotfile_20230113T000000.txt' FREE
+STOP
